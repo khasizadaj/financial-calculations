@@ -1,7 +1,7 @@
 """
 Test file for time value of money module.
 
-TODO write unit tests for this module 
+TODO write unit tests for this module.
 """
 
 from decimal import Decimal
