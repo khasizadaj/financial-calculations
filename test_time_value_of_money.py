@@ -4,10 +4,8 @@ Test file for time value of money module.
 TODO write unit tests for this module.
 """
 
-from decimal import Decimal
 import time_value_of_money as tvm
 from helper_funcs import get_decimal, quantize
-
 
 dec_num = get_decimal("100000")
 assert dec_num.quantize(get_decimal("1.00")) == quantize(dec_num, 2)
@@ -81,8 +79,26 @@ cash_flow = get_decimal("100")
 return_rate = get_decimal("0.1")
 number_of_years = get_decimal("3.00")
 annuity_type = "wrong"
-try:
-    annuity = tvm.get_annuity(cash_flow, return_rate,
-                              number_of_years, annuity_type)
-except ValueError as e:
-    print(e)
+# try:
+#     annuity = tvm.get_annuity(cash_flow, return_rate,
+#                               number_of_years, annuity_type)
+# except ValueError as e:
+#     print(e)
+
+# checking annuity delayed
+cash_flow = get_decimal("100")
+return_rate = get_decimal("0.07")
+number_of_years = get_decimal("5.00")
+delay_period = get_decimal("2.00")
+annuity = tvm.get_annuity_delayed(
+    cash_flow, return_rate, number_of_years, delay_period)
+assert quantize(annuity, 2) == get_decimal("383.20")
+
+# checking annuity delayed
+cash_flow = get_decimal("100")
+return_rate = get_decimal("0.07")
+number_of_years = get_decimal("5.00")
+delay_period = get_decimal("1.00")
+annuity = tvm.get_annuity_delayed(
+    cash_flow, return_rate, number_of_years, delay_period)
+assert quantize(annuity, 2) == get_decimal("410.02")

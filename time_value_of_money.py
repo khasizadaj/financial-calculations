@@ -74,5 +74,21 @@ def get_annuity(cash_flow: Decimal, return_rate: Decimal,
     return result
 
 
+def get_annuity_delayed(cash_flow: Decimal, return_rate: Decimal,
+                        number_of_years: Decimal, delay_period: Decimal,
+                        annuity_type: str = "ordinary"):
+    """Returns present value for given annuity type after certain period pf delay."""
+
+    pvif_func = get_pvif_func(annuity_type)
+    if delay_period > 1:
+        result = cash_flow * \
+            (pvif_func(return_rate, number_of_years + delay_period - 1) -
+             pvif_func(return_rate, delay_period-1))
+    else:
+        result = cash_flow * pvif_func(return_rate, number_of_years)
+
+    return result
+
+
 if __name__ == '__main__':
     print("This module is used to find the time value of money.")
