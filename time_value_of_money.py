@@ -3,6 +3,8 @@
 from decimal import Decimal
 from math import log
 
+from interest_factors import get_pvif_func
+
 
 def get_present_value(future_value: Decimal, return_rate: Decimal,
                       number_of_years: int) -> Decimal:
@@ -57,6 +59,17 @@ def get_growing_perpetuity(cash_flow: Decimal, return_rate: Decimal,
     """Returns present value of sum of cash flows with growth rate."""
 
     result = cash_flow / (return_rate - growth_rate)
+
+    return result
+
+
+def get_annuity(cash_flow: Decimal, return_rate: Decimal,
+                number_of_years: Decimal, annuity_type: str = "ordinary"):
+    """Returns present value for given annuity type"""
+
+    pvif_func = get_pvif_func(annuity_type)
+
+    result = cash_flow * pvif_func(return_rate, number_of_years)
 
     return result
 
