@@ -1,6 +1,7 @@
 """This module implements interest factors for multiple cash flow models."""
 
 from decimal import Decimal
+from typing import Callable
 
 
 def pvifa(return_rate: Decimal, number_of_years: int) -> Decimal:
@@ -19,8 +20,19 @@ def pvifad(return_rate: Decimal, number_of_years: int) -> Decimal:
     """Function returns present value interest factor for annuity due."""
 
     result = pvifa(return_rate, number_of_years - 1) + 1
-    
+
     return result
+
+
+def get_pvif_func(annuity_type: str) -> Callable:
+    """Returns present value interest factor function for given type."""
+    if annuity_type.lower() in ['ordinary', "deferred"]:
+        return pvifa
+    elif annuity_type.lower() == "due":
+        return pvifad
+
+    raise ValueError(
+        "Unknown annuity type. Please provide one of these types: ordinary (or deferred), due.")
 
 
 if __name__ == "__main__":
