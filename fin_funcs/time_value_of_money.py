@@ -1,9 +1,13 @@
-"""Functions to calculate time value of money."""
+"""
+Functions to calculate time value of money.
+
+TODO Write function to calculate multiple cash flows.
+"""
 
 from decimal import Decimal
 from math import log
 
-from interest_factors import get_pvif_func
+from .interest_factors import get_pvif_func
 
 
 def get_present_value(future_value: Decimal, return_rate: Decimal,
@@ -22,7 +26,7 @@ def get_future_value(present_value: Decimal, return_rate: Decimal,
     return result
 
 
-def get_numbers_of_years(present_value: Decimal, future_value: Decimal,
+def get_number_of_years(present_value: Decimal, future_value: Decimal,
                          return_rate: Decimal) -> Decimal:
     """
     Returns numbers of years needed to get the given future value from given
