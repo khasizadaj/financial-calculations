@@ -4,12 +4,12 @@ from decimal import Decimal
 from typing import Callable
 
 
-def pvifa(return_rate: Decimal, number_of_years: int) -> Decimal:
+def pvifa(return_rate: Decimal, number_of_years: Decimal) -> Decimal:
     """Function returns present value interest factor for ordinary annuity."""
 
     result = Decimal("0.00")
 
-    for i in range(1, number_of_years+1):
+    for i in range(1, int(number_of_years)+1):
         result += Decimal("1.00") / (Decimal("1.00") +
                                      return_rate) ** Decimal(str(i))
 
