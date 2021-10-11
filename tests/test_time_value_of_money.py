@@ -117,6 +117,28 @@ class TestTimeValueOfMoney(unittest.TestCase):
         expected_value = get_dec("410.02")
         self.assertEqual(quantize(script, 2), expected_value)
 
+    def test_get_present_value_multiple(self):
+        cash_flows = [get_dec(cash_flow) for cash_flow in [100, 100, 100]]
+        return_rate = get_dec("0.1")
+
+        script = tvm.get_present_value_multiple(cash_flows, return_rate)
+        expected_value = tvm.get_annuity(
+            get_dec("100"), return_rate, get_dec("3"))
+        self.assertEqual(quantize(script, 2), quantize(expected_value, 2))
+
+        # no payment in certain period
+        no_payment = get_dec("0.0")
+        cf_1 = get_dec("100")
+        cf_2 = get_dec("100")
+        cf_3 = get_dec("100")
+        return_rate = get_dec("0.1")
+
+        script = tvm.get_present_value_multiple(
+            [cf_1, cf_2, no_payment, cf_3], return_rate)
+        expected_value = tvm.get_present_value(cf_1, return_rate, 1) + tvm.get_present_value(
+            cf_2, return_rate, 2) + tvm.get_present_value(cf_3, return_rate, 4)
+        self.assertEqual(quantize(script, 2), quantize(expected_value, 2))
+
 
 if __name__ == "__main__":
     unittest.main()

@@ -6,8 +6,10 @@ TODO Write function to calculate multiple cash flows.
 
 from decimal import Decimal
 from math import log
+from typing import List
 
 from .interest_factors import get_pvif_func
+from .helper_funcs import get_decimal
 
 
 def get_present_value(future_value: Decimal, return_rate: Decimal,
@@ -15,6 +17,26 @@ def get_present_value(future_value: Decimal, return_rate: Decimal,
     """Returns the present value of given future value."""
 
     result = future_value / (1 + return_rate)**number_of_years
+    return result
+
+
+def get_present_value_multiple(future_cash_flows: List[Decimal], return_rate: Decimal):
+    """
+    Returns present value multiple cash flows in the future.
+    
+    Note: If there is no payment in certain period provide 0 for that period as a future
+    cash flow.
+    """
+
+    result = get_decimal("0.00")
+    for number_of_years, curr_future_value in enumerate(future_cash_flows, start=1):
+        if curr_future_value == 0:
+            continue
+
+        curr_pv = get_present_value(
+            curr_future_value, return_rate, number_of_years)
+        result += curr_pv
+
     return result
 
 
@@ -27,7 +49,7 @@ def get_future_value(present_value: Decimal, return_rate: Decimal,
 
 
 def get_number_of_years(present_value: Decimal, future_value: Decimal,
-                         return_rate: Decimal) -> Decimal:
+                        return_rate: Decimal) -> Decimal:
     """
     Returns numbers of years needed to get the given future value from given
     present value.
