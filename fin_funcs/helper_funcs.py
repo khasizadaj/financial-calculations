@@ -1,5 +1,6 @@
 from decimal import Decimal
-from typing import Union
+from typing import Union, List
+import inspect
 
 
 def quantize(decimal_number, decimal_count):
@@ -21,3 +22,19 @@ def get_decimal(value: Union[Decimal, int, float, str]) -> Decimal:
         return Decimal(value)
 
     raise ValueError("Please provide correct value type. For example: 1.00")
+
+
+def get_parameter_inputs(func) -> List:
+    """Returns list of parameter inputs for the given function from user"""
+
+    specs = inspect.getfullargspec(func)
+
+    inputs = []
+    for arg, annotation in zip(specs.args, specs.annotations.values()):
+
+        inp = input(f'Please, provide value of "{arg}": ')
+        if annotation is List[Decimal]:
+            inputs.append([get_decimal(i) for i in inp.split(",")])
+        else:
+            inputs.append(get_decimal(inp))
+    return inputs
