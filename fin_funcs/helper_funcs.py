@@ -1,6 +1,8 @@
-from decimal import Decimal
-from typing import Union, List
+from decimal import Decimal, InvalidOperation
+from typing import Union, List, Callable, Dict
+
 import inspect
+import sys
 
 
 def quantize(decimal_number, decimal_count):
@@ -32,9 +34,39 @@ def get_parameter_inputs(func) -> List:
     inputs = []
     for arg, annotation in zip(specs.args, specs.annotations.values()):
 
-        inp = input(f'Please, provide value of "{arg}": ')
-        if annotation is List[Decimal]:
-            inputs.append([get_decimal(i) for i in inp.split(",")])
-        else:
-            inputs.append(get_decimal(inp))
+        try:
+            if annotation is List[Decimal]:
+                inp = input(
+                    f'Please, provide value of "{arg}" (seperate them with commas): ')
+                inputs.append([get_decimal(i)
+                               for i in inp.replace(" ", "").split(",")])
+            else:
+                inp = input(f'Please, provide value of "{arg}": ')
+                inputs.append(get_decimal(inp))
+        except InvalidOperation:
+            print("Invalid input (not decimal number) passed. Please, provide correct value (e.g. 1.00 or 100). If list of values asked, use comma as seperator.")
+            sys.exit()
     return inputs
+
+
+def calc(func: Callable) -> Decimal:
+    """Function gets input parameters from user and returns output."""
+
+    inputs = get_parameter_inputs(func)
+
+    res = func(*inputs)
+    return res
+
+
+def get_input(dictionary: Dict):
+    type_is_correct = False
+    while not type_is_correct:
+        type_ = input("Write number of calculation type here. (e.g. 2): ")
+        mod = dictionary.get(type_, None)
+        if mod is not None:
+            type_is_correct = True
+            break
+
+        print("Please, write correct number.")
+
+    return mod

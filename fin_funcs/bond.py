@@ -20,14 +20,14 @@ def price(face_value: Decimal, coupon_rate: Decimal,
     return result
 
 
-def coupon_rate(face_value: Decimal, bond_price: Decimal,
+def coupon_rate(face_value: Decimal, current_price: Decimal,
                 yield_to_maturity: Decimal, number_of_years: Decimal):
     """Function returns coupon rate of a given bond."""
     pv_face_value = tvm.present_value(face_value, yield_to_maturity,
                                       number_of_years)
 
     interest_factor = pvifa(yield_to_maturity, number_of_years)
-    interest_payment = (bond_price - pv_face_value) / interest_factor
+    interest_payment = (current_price - pv_face_value) / interest_factor
 
     return interest_payment / face_value
 
@@ -36,11 +36,11 @@ def coupon_payment(face_value: Decimal, coupon_rate: Decimal):
     return face_value * coupon_rate
 
 
-def rate_of_return(face_value: Decimal, coupon_rate: Decimal, yield_to_maturity: Decimal, orig_value: Decimal, number_of_years: Decimal):
+def rate_of_return(face_value: Decimal, coupon_rate: Decimal, yield_to_maturity: Decimal, original_price: Decimal, number_of_years: Decimal):
     coupon = coupon_payment(face_value, coupon_rate)
-    p_value = price(face_value, coupon_rate,
-                    yield_to_maturity, number_of_years)
-    result = (coupon + p_value - orig_value) / orig_value
+    present_value = price(face_value, coupon_rate,
+                          yield_to_maturity, number_of_years)
+    result = (coupon + present_value - original_price) / original_price
     return result
 
 

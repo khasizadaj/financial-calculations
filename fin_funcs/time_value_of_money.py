@@ -1,7 +1,5 @@
 """
 Functions to calculate time value of money.
-
-TODO Write function to calculate multiple cash flows.
 """
 
 from decimal import Decimal
@@ -20,7 +18,7 @@ def present_value(future_value: Decimal, return_rate: Decimal,
     return result
 
 
-def present_value_multiple(future_cash_flows: List[Decimal], return_rate: Decimal):
+def present_value_multiple(list_of_future_cash_flows: List[Decimal], return_rate: Decimal):
     """
     Returns present value multiple cash flows in the future.
 
@@ -29,7 +27,7 @@ def present_value_multiple(future_cash_flows: List[Decimal], return_rate: Decima
     """
 
     result = get_decimal("0.00")
-    for number_of_years, curr_future_value in enumerate(future_cash_flows, start=1):
+    for number_of_years, curr_future_value in enumerate(list_of_future_cash_flows, start=1):
         if curr_future_value == 0:
             continue
 
@@ -72,46 +70,46 @@ def return_rate(present_value: Decimal, future_value: Decimal,
     return result
 
 
-def perpetuity(cash_flow: Decimal, return_rate: Decimal) -> Decimal:
+def perpetuity(annual_cash_flow: Decimal, return_rate: Decimal) -> Decimal:
     """Returns present value of sum of future cash flows."""
 
-    result = cash_flow / return_rate
+    result = annual_cash_flow / return_rate
 
     return result
 
 
-def growing_perpetuity(cash_flow: Decimal, return_rate: Decimal,
+def growing_perpetuity(annual_cash_flow: Decimal, return_rate: Decimal,
                        growth_rate: Decimal) -> Decimal:
     """Returns present value of sum of cash flows with growth rate."""
 
-    result = cash_flow / (return_rate - growth_rate)
+    result = annual_cash_flow / (return_rate - growth_rate)
 
     return result
 
 
-def annuity(cash_flow: Decimal, return_rate: Decimal,
+def annuity(annual_cash_flow: Decimal, return_rate: Decimal,
             number_of_years: Decimal, annuity_type: str = "ordinary"):
     """Returns present value for given annuity type"""
 
     pvif_func = get_pvif_func(annuity_type)
 
-    result = cash_flow * pvif_func(return_rate, number_of_years)
+    result = annual_cash_flow * pvif_func(return_rate, number_of_years)
 
     return result
 
 
-def annuity_delayed(cash_flow: Decimal, return_rate: Decimal,
+def annuity_delayed(annual_cash_flow: Decimal, return_rate: Decimal,
                     number_of_years: Decimal, delay_period: Decimal,
                     annuity_type: str = "ordinary"):
     """Returns present value for given annuity type after certain period pf delay."""
 
     pvif_func = get_pvif_func(annuity_type)
     if delay_period > 1:
-        result = cash_flow * \
+        result = annual_cash_flow * \
             (pvif_func(return_rate, number_of_years + delay_period - 1) -
              pvif_func(return_rate, delay_period-1))
     else:
-        result = cash_flow * pvif_func(return_rate, number_of_years)
+        result = annual_cash_flow * pvif_func(return_rate, number_of_years)
 
     return result
 

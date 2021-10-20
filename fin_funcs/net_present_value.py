@@ -3,17 +3,18 @@
 from decimal import Decimal
 from typing import List
 
-import .time_value_of_money as tvm
-import .helper_funcs as h
+from . import time_value_of_money as tvm
+from . import helper_funcs as h
 
 
-def npv(initial_investment: Decimal, rate_of_return: Decimal, future_cash_flows: List[Decimal]):
-    total_pv = tvm.present_value_multiple(future_cash_flows, rate_of_return)
+def npv(initial_investment: Decimal, rate_of_return: Decimal, list_of_future_cash_flows: List[Decimal]):
+    total_pv = tvm.present_value_multiple(
+        list_of_future_cash_flows, rate_of_return)
     return total_pv - initial_investment
 
 
-def profitability_index(pv_of_cash_flows: Decimal, initial_investment: Decimal):
-    return pv_of_cash_flows / initial_investment
+def profitability_index(present_value_of_cash_flows: Decimal, initial_investment: Decimal):
+    return present_value_of_cash_flows / initial_investment
 
 
 def payback_period_same_cash_flow(initial_investment: Decimal, cash_flow: Decimal):
