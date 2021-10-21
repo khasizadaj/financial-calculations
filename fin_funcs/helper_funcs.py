@@ -43,7 +43,9 @@ def get_parameter_inputs(func) -> List:
                                for i in inp.replace(" ", "").split(",")])
             else:
                 if arg == "annuity_type":
-                    message += ' ("0" for ordinary annuity, "1" for annuity due)'
+                    message += ' ("0" for ordinary annuity; "1" for annuity due)'
+                if arg == "dividend_is_gonna_grow":
+                    message += ' (if not, "0"; if yes, "1")'
                 inp = input(f'{message}: ')
                 inputs.append(get_decimal(inp))
         except InvalidOperation:

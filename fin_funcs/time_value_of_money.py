@@ -10,8 +10,8 @@ from .interest_factors import get_pvif_func
 from .helper_funcs import get_decimal
 
 
-def present_value(future_value: Decimal, return_rate: Decimal,
-                  number_of_periods: int) -> Decimal:
+def present_val(future_value: Decimal, return_rate: Decimal,
+                number_of_periods: int) -> Decimal:
     """Returns the present value of given future value."""
 
     result = future_value / (1 + return_rate)**number_of_periods
@@ -31,15 +31,15 @@ def present_value_multiple(list_of_future_cash_flows: List[Decimal], return_rate
         if curr_future_value == 0:
             continue
 
-        curr_pv = present_value(
+        curr_pv = present_val(
             curr_future_value, return_rate, number_of_periods)
         result += curr_pv
 
     return result
 
 
-def future_value(present_value: Decimal, return_rate: Decimal,
-                 number_of_periods: int) -> Decimal:
+def future_val(present_value: Decimal, return_rate: Decimal,
+               number_of_periods: int) -> Decimal:
     """Returns the future value of given future value."""
 
     result = present_value * (1 + return_rate)**number_of_periods
@@ -59,8 +59,8 @@ def number_of_years(present_value: Decimal, future_value: Decimal,
     return decimalized_result
 
 
-def return_rate(present_value: Decimal, future_value: Decimal,
-                number_of_periods: Decimal) -> Decimal:
+def rate_of_return(present_value: Decimal, future_value: Decimal,
+                   number_of_periods: Decimal) -> Decimal:
     """
     Returns the return rate get given future value from given present value
     in given number of years.

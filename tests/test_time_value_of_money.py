@@ -16,7 +16,7 @@ class TestTimeValueOfMoney(unittest.TestCase):
         rate = get_dec("0.05")
         num_of_years = get_dec("20")
 
-        script = tvm.present_value(future_value, rate, num_of_years)
+        script = tvm.present_val(future_value, rate, num_of_years)
         real = get_dec("37688.95")
         self.assertEqual(quantize(script, 2), real)
 
@@ -25,7 +25,7 @@ class TestTimeValueOfMoney(unittest.TestCase):
         return_rate = get_dec("0.05")
         number_of_years = get_dec("10")
 
-        script = tvm.future_value(
+        script = tvm.future_val(
             present_value, return_rate, number_of_years)
         real = get_dec("162.89")
         self.assertEqual(quantize(script, 2), real)
@@ -45,7 +45,7 @@ class TestTimeValueOfMoney(unittest.TestCase):
         future_value = get_dec("200.00")
         number_of_years = get_dec("6.00")
 
-        script = tvm.return_rate(
+        script = tvm.rate_of_return(
             present_value, future_value, number_of_years)
         real = get_dec("0.1225")
         self.assertEqual(quantize(script, 4), real)
@@ -135,8 +135,8 @@ class TestTimeValueOfMoney(unittest.TestCase):
 
         script = tvm.present_value_multiple(
             [cf_1, cf_2, no_payment, cf_3], return_rate)
-        expected_value = tvm.present_value(cf_1, return_rate, 1) + tvm.present_value(
-            cf_2, return_rate, 2) + tvm.present_value(cf_3, return_rate, 4)
+        expected_value = tvm.present_val(cf_1, return_rate, 1) + tvm.present_val(
+            cf_2, return_rate, 2) + tvm.present_val(cf_3, return_rate, 4)
         self.assertEqual(quantize(script, 2), quantize(expected_value, 2))
 
 

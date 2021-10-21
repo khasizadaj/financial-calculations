@@ -6,13 +6,14 @@ import fin_funcs.helper_funcs as h
 import fin_funcs.bond as bond
 import fin_funcs.interest_factors as int_fac
 import fin_funcs.net_present_value as npv
+import fin_funcs.share_valuation as share
 
 TVM_FUNCS = {
-    "1": tvm.present_value,
+    "1": tvm.present_val,
     "2": tvm.present_value_multiple,
-    "3": tvm.future_value,
+    "3": tvm.future_val,
     "4": tvm.number_of_years,
-    "5": tvm.return_rate,
+    "5": tvm.rate_of_return,
     "6": tvm.perpetuity,
     "7": tvm.growing_perpetuity,
     "8": tvm.annuity,
@@ -20,15 +21,12 @@ TVM_FUNCS = {
 }
 
 SHARE_FUNCS = {
-    # "1": tvm.present_value,
-    # "2": tvm.present_value_multiple,
-    # "3": tvm.future_value,
-    # "4": tvm.number_of_years,
-    # "5": tvm.return_rate,
-    # "6": tvm.perpetuity,
-    # "7": tvm.growing_perpetuity,
-    # "8": tvm.annuity,
-    # "9": tvm.annuity_delayed,
+    "1": share.expected_return,
+    "2": share.constant_growth_ddm,
+    "3": share.rate_of_growth,
+    "4": share.ratio_of_payout,
+    "5": share.ratio_of_plowback,
+    "6": share.pvgo,
 }
 
 NPV_FUNCS = {
@@ -40,7 +38,7 @@ NPV_FUNCS = {
 
 BOND_FUNCS = {
     "1": bond.price,
-    "2": bond.coupon_rate,
+    "2": bond.rate_of_coupon,
     "3": bond.coupon_payment,
     "4": bond.rate_of_return,
     "5": bond.real_rate_of_return,
@@ -59,7 +57,7 @@ def get_tvm_func():
                "1. Present Value (PV)",
                "2. Present Value of Multiple Iregular Cash Flows (PV)",
                "3. Future Value (FV)",
-               "4. Number of years to reach from PV to FV (n)",
+               "4. Number of periods to reach from PV to FV (n)",
                "5. Return rate (r)",
                "6. Perpetuity",
                "7. Growing Perpetuity",
@@ -106,14 +104,12 @@ def get_share_funcs():
     """Returns respective share valuation function based on user input."""
 
     m_start = ["\n\nWhat type of calculation do you want to perform?", "",
-               "1. Present Value (PV)",
-               "2. Present Value of Multiple Iregular Cash Flows (PV)",
-               "3. Future Value (FV)",
-               "4. Number of years to reach from PV to FV (n)",
-               "5. Return rate (r)",
-               "6. Perpetuity",
-               "7. Growing Perpetuity",
-               "8. Annuity", "9. Annuity delayed", ""
+               "1. Expected return rate (r)",
+               "2. Constant Growth Dividend Discount Model (Gordon Model)",
+               "3. Growth rate (g)",
+               "4. Payout ratio (b)",
+               "5. Plowback ratio",
+               "6. PVGO", ""
                ]
     print("\n ".join(m_start))
 
