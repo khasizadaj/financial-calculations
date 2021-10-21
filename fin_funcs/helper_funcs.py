@@ -34,14 +34,17 @@ def get_parameter_inputs(func) -> List:
     inputs = []
     for arg, annotation in zip(specs.args, specs.annotations.values()):
 
+        message = f'Please, provide value of "{arg}"'
         try:
             if annotation is List[Decimal]:
                 inp = input(
-                    f'Please, provide value of "{arg}" (seperate them with commas): ')
+                    f'{message} (seperate them with commas): ')
                 inputs.append([get_decimal(i)
                                for i in inp.replace(" ", "").split(",")])
             else:
-                inp = input(f'Please, provide value of "{arg}": ')
+                if arg == "annuity_type":
+                    message += ' ("0" for ordinary annuity, "1" for annuity due)'
+                inp = input(f'{message}: ')
                 inputs.append(get_decimal(inp))
         except InvalidOperation:
             print("Invalid input (not decimal number) passed. Please, provide correct value (e.g. 1.00 or 100). If list of values asked, use comma as seperator.")

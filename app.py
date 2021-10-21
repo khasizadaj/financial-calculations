@@ -55,7 +55,7 @@ INT_FAC_FUNCS = {
 def get_tvm_func():
     """Returns respective time value of money function based on user input."""
 
-    m_start = ["What type of calculation do you want to perform?", "",
+    m_start = ["\n\nWhat type of calculation do you want to perform?", "",
                "1. Present Value (PV)",
                "2. Present Value of Multiple Iregular Cash Flows (PV)",
                "3. Future Value (FV)",
@@ -74,7 +74,7 @@ def get_tvm_func():
 def get_interest_factor_funcs():
     """Returns respective interest factor function based on user input."""
 
-    m_start = ["What type of calculation do you want to perform?", "",
+    m_start = ["\n\nWhat type of calculation do you want to perform?", "",
                "1. PVIFA",
                "2. PVIFAD", ""
                ]
@@ -87,7 +87,7 @@ def get_interest_factor_funcs():
 def get_bond_funcs():
     """Returns respective bond valuation function based on user input."""
 
-    m_start = ["What type of calculation do you want to perform?", "",
+    m_start = ["\n\nWhat type of calculation do you want to perform?", "",
                "1. Price (PV)",
                "2. Coupon Rate",
                "3. Coupon Payment",
@@ -105,7 +105,7 @@ def get_bond_funcs():
 def get_share_funcs():
     """Returns respective share valuation function based on user input."""
 
-    m_start = ["What type of calculation do you want to perform?", "",
+    m_start = ["\n\nWhat type of calculation do you want to perform?", "",
                "1. Present Value (PV)",
                "2. Present Value of Multiple Iregular Cash Flows (PV)",
                "3. Future Value (FV)",
@@ -127,7 +127,7 @@ def get_npv_funcs():
     user input.
     """
 
-    m_start = ["What type of calculation do you want to perform?", "",
+    m_start = ["\n\nWhat type of calculation do you want to perform?", "",
                "1. Net Present Value(NPV)",
                "2. Profitability index",
                "3. Payback period (same cash flow)", ""
@@ -146,20 +146,26 @@ FIN_MODULE_FACTORIES = {"1": get_tvm_func, "2": get_interest_factor_funcs,
 def main():
     """Function executes main logic of the application."""
 
-    m_start = ["What type of calculation do you want to perform?", "",
-               "1. Time Value of Money",
-               "2. Interest Factors (PVIF, PVIFA)",
-               "3. Bond Valuation",
-               "4. Share Valuation",
-               "5. NPV and other investment criteria", ""
-               ]
-    print("\n ".join(m_start))
+    will_continue = True
+    while will_continue:
+        m_start = ["\nWhat type of calculation do you want to perform?", "",
+                   "1. Time Value of Money",
+                   "2. Interest Factors (PVIF, PVIFA)",
+                   "3. Bond Valuation",
+                   "4. Share Valuation",
+                   "5. NPV and other investment criteria", ""
+                   ]
+        print("\n ".join(m_start))
 
-    mod = h.get_input(FIN_MODULE_FACTORIES)
-    fin_func = mod()
+        mod = h.get_input(FIN_MODULE_FACTORIES)
+        fin_func = mod()
 
-    result = h.calc(fin_func)
-    print(h.quantize(result, 4))
+        result = h.calc(fin_func)
+        print(f"Result is {h.quantize(result, 4)}.")
+
+        print("\n======\n")
+        will_continue = True if input(
+            "Do you want to calculate again? (y/n): ").lower() == "y" else False
 
 
 if __name__ == "__main__":

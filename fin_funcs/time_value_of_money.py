@@ -88,7 +88,7 @@ def growing_perpetuity(annual_cash_flow: Decimal, return_rate: Decimal,
 
 
 def annuity(annual_cash_flow: Decimal, return_rate: Decimal,
-            number_of_years: Decimal, annuity_type: str = "ordinary"):
+            number_of_years: Decimal, annuity_type: str = 0):
     """Returns present value for given annuity type"""
 
     pvif_func = get_pvif_func(annuity_type)

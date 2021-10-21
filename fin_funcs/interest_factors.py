@@ -24,12 +24,11 @@ def pvifad(return_rate: Decimal, number_of_years: int) -> Decimal:
     return result
 
 
-def get_pvif_func(annuity_type: str) -> Callable:
+def get_pvif_func(annuity_type: int) -> Callable:
     """Returns present value interest factor function for given type."""
-    if annuity_type.lower() in ['ordinary', "deferred"]:
+    if annuity_type == 0:
         return pvifa
-    elif annuity_type.lower() == "due":
-        return pvifad
+    return pvifad
 
     raise ValueError(
         "Unknown annuity type. Please provide one of these types: ordinary (or deferred), due.")
