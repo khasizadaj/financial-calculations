@@ -11,10 +11,10 @@ from .helper_funcs import get_decimal
 
 
 def present_value(future_value: Decimal, return_rate: Decimal,
-                  number_of_years: int) -> Decimal:
+                  number_of_periods: int) -> Decimal:
     """Returns the present value of given future value."""
 
-    result = future_value / (1 + return_rate)**number_of_years
+    result = future_value / (1 + return_rate)**number_of_periods
     return result
 
 
@@ -27,22 +27,22 @@ def present_value_multiple(list_of_future_cash_flows: List[Decimal], return_rate
     """
 
     result = get_decimal("0.00")
-    for number_of_years, curr_future_value in enumerate(list_of_future_cash_flows, start=1):
+    for number_of_periods, curr_future_value in enumerate(list_of_future_cash_flows, start=1):
         if curr_future_value == 0:
             continue
 
         curr_pv = present_value(
-            curr_future_value, return_rate, number_of_years)
+            curr_future_value, return_rate, number_of_periods)
         result += curr_pv
 
     return result
 
 
 def future_value(present_value: Decimal, return_rate: Decimal,
-                 number_of_years: int) -> Decimal:
+                 number_of_periods: int) -> Decimal:
     """Returns the future value of given future value."""
 
-    result = present_value * (1 + return_rate)**number_of_years
+    result = present_value * (1 + return_rate)**number_of_periods
     return result
 
 
@@ -60,13 +60,13 @@ def number_of_years(present_value: Decimal, future_value: Decimal,
 
 
 def return_rate(present_value: Decimal, future_value: Decimal,
-                number_of_years: Decimal) -> Decimal:
+                number_of_periods: Decimal) -> Decimal:
     """
     Returns the return rate get given future value from given present value
     in given number of years.
     """
 
-    result = (future_value / present_value)**(1 / number_of_years) - 1
+    result = (future_value / present_value)**(1 / number_of_periods) - 1
     return result
 
 
@@ -88,28 +88,28 @@ def growing_perpetuity(annual_cash_flow: Decimal, return_rate: Decimal,
 
 
 def annuity(annual_cash_flow: Decimal, return_rate: Decimal,
-            number_of_years: Decimal, annuity_type: str = 0):
+            number_of_periods: Decimal, annuity_type: str = 0):
     """Returns present value for given annuity type"""
 
     pvif_func = get_pvif_func(annuity_type)
 
-    result = annual_cash_flow * pvif_func(return_rate, number_of_years)
+    result = annual_cash_flow * pvif_func(return_rate, number_of_periods)
 
     return result
 
 
 def annuity_delayed(annual_cash_flow: Decimal, return_rate: Decimal,
-                    number_of_years: Decimal, delay_period: Decimal,
+                    number_of_periods: Decimal, delay_period: Decimal,
                     annuity_type: str = "ordinary"):
     """Returns present value for given annuity type after certain period pf delay."""
 
     pvif_func = get_pvif_func(annuity_type)
     if delay_period > 1:
         result = annual_cash_flow * \
-            (pvif_func(return_rate, number_of_years + delay_period - 1) -
+            (pvif_func(return_rate, number_of_periods + delay_period - 1) -
              pvif_func(return_rate, delay_period-1))
     else:
-        result = annual_cash_flow * pvif_func(return_rate, number_of_years)
+        result = annual_cash_flow * pvif_func(return_rate, number_of_periods)
 
     return result
 
